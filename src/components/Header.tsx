@@ -1,4 +1,4 @@
-import IconMoon from "../../images/icon-moon.svg";
+import IconMoon from "../assets/icon-moon.svg";
 import styled from "styled-components";
 
 const StyledDiv = styled.div`
