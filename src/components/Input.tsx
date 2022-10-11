@@ -2,12 +2,20 @@ import React from "react";
 import styled from "styled-components";
 
 const StyledInput = styled.input`
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  background-color: ${({ theme }) => theme.ListBackground};
+  color: ${({ theme }) => theme.PrimaryText};
+  border: none;
+  border-radius: 7px;
   padding: 14px;
   font-size: 18px;
   width: 100%;
   margin-bottom: 1rem;
+  &:focus {
+    outline: none;
+  }
+  &::placeholder {
+    color: ${({ theme }) => theme.SecondaryText};
+  }
 `;
 
 type Props = {

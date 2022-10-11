@@ -1,5 +1,6 @@
 import IconMoon from "../assets/icon-moon.svg";
-import styled from "styled-components";
+import IconSun from "../assets/icon-sun.svg";
+import styled, { ThemeConsumer } from "styled-components";
 
 const StyledDiv = styled.div`
   width: 100%;
@@ -19,12 +20,26 @@ const StyledHeader = styled.h3`
 const StyledIcon = styled.img`
   width: 25px;
   height: 25px;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
-const Header = () => {
+
+type Props = {
+  themeToggler: () => void;
+  theme: string;
+};
+
+const Header = (props: Props) => {
   return (
     <StyledDiv>
       <StyledHeader>TODO</StyledHeader>
-      <StyledIcon src={IconMoon} alt="theme change icon" />
+      <StyledIcon
+        src={props.theme === "light" ? IconMoon : IconSun}
+        alt="theme change icon"
+        onClick={props.themeToggler}
+      />
     </StyledDiv>
   );
 };

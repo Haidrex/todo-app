@@ -6,14 +6,20 @@ import IconCross from "../assets/icon-cross.svg";
 const Container = styled.div`
   width: 100%;
   height: 50px;
+  font-size: 18px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   padding: 30px;
-  color: hsl(235, 19%, 35%);
+  color: ${({ theme }) => theme.PrimaryText};
+  border-bottom: 1px solid ${({ theme }) => theme.Border};
 
-  border-bottom: 1px solid hsl(233, 11%, 84%);
+  &:hover {
+    cursor: pointer;
+    & > img {
+      display: block;
+    }
+  }
 `;
 
 const NameContainer = styled.div`
@@ -24,7 +30,7 @@ const Check = styled.img`
   width: 25px;
   height: 25px;
   padding: 5px;
-  margin-right: 10px;
+  margin-right: 20px;
   border: 1px solid #ccc;
   border-radius: 100px;
   background: linear-gradient(
@@ -37,6 +43,7 @@ const Check = styled.img`
 const Cross = styled.img`
   width: 15px;
   height: 15px;
+  display: none;
 `;
 // type Todo = {
 //   id: number;

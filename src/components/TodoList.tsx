@@ -7,7 +7,7 @@ const StyledDiv = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  background-color: hsl(0, 0%, 98%);
+  background-color: ${({ theme }) => theme.ListBackground};
   border-radius: 5px;
   margin-bottom: 1rem;
 `;

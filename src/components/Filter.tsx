@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -9,16 +9,51 @@ const Container = styled.div`
   justify-content: center;
   gap: 1rem;
   border-radius: 5px;
-  background-color: hsl(0, 0%, 98%);
+  background-color: ${({ theme }) => theme.ListBackground};
   padding: 30px;
-  color: hsl(236, 9%, 61%);
+  color: ${({ theme }) => theme.SecondaryText};
+`;
+
+const StyledSpan = styled.span`
+  &:hover {
+    cursor: pointer;
+    color: ${({ theme }) => theme.Hover};
+  }
+  &.active {
+    color: hsl(220, 98%, 61%);
+  }
 `;
 
 const Filter = () => {
+  const [active, setActive] = useState("all");
+
+  const changeFilter = (id: string) => {
+    setActive(id);
+  };
+
   return (
     <Container>
-      <span>All</span> <span>Active</span>
-      <span>Completed</span>
+      <StyledSpan
+        id="all"
+        className={active === "all" ? "active" : undefined}
+        onClick={() => changeFilter("all")}
+      >
+        All
+      </StyledSpan>{" "}
+      <StyledSpan
+        id="active"
+        className={active === "active" ? "active" : undefined}
+        onClick={() => changeFilter("active")}
+      >
+        Active
+      </StyledSpan>{" "}
+      <StyledSpan
+        id="completed"
+        className={active === "completed" ? "active" : undefined}
+        onClick={() => changeFilter("completed")}
+      >
+        Completed
+      </StyledSpan>
     </Container>
   );
 };

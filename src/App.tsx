@@ -2,7 +2,10 @@ import React, { useState, useEffect } from "react";
 import Input from "./components/Input";
 import Header from "./components/Header";
 import styled from "styled-components";
-import "./App.css";
+import { ThemeProvider } from "styled-components";
+import { GlobalStyles } from "./components/globalStyles";
+import { darkTheme, lightTheme } from "./components/Themes";
+// import "./App.css";
 import TodoList from "./components/TodoList";
 import Filter from "./components/Filter";
 
@@ -28,7 +31,8 @@ const StyledForm = styled.form`
 `;
 
 function App() {
-  const [input, setInput] = useState<string>("");
+  const [input, setInput] = useState("");
+  const [theme, setTheme] = useState("light");
   const [screenSize, setScreenSize] = useState(window.innerWidth);
 
   useEffect(() => {
@@ -42,17 +46,24 @@ function App() {
     };
   });
 
+  const themeToggler = () => {
+    theme === "light" ? setTheme("dark") : setTheme("light");
+  };
+
   return (
-    <Container>
-      <StyledDiv>
-        <Header />
-        <StyledForm>
-          <Input value={input} onChange={(e) => setInput(e.target.value)} />
-        </StyledForm>
-        <TodoList mobile={screenSize < 768} />
-        {screenSize < 768 && <Filter />}
-      </StyledDiv>
-    </Container>
+    <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
+      <GlobalStyles />
+      <Container>
+        <StyledDiv>
+          <Header themeToggler={themeToggler} theme={theme} />
+          <StyledForm>
+            <Input value={input} onChange={(e) => setInput(e.target.value)} />
+          </StyledForm>
+          <TodoList mobile={screenSize < 768} />
+          {screenSize < 768 && <Filter />}
+        </StyledDiv>
+      </Container>
+    </ThemeProvider>
   );
 }
 
