@@ -29,44 +29,42 @@ const StyledSpan = styled.span`
 `;
 type Props = {
   mobile: boolean;
+  todosLeft: number;
+  clearCompleted: () => void;
+  filter: string;
+  filterTodos: (filter: string) => void;
 };
 
 const ListFooter = (props: Props) => {
-  const [active, setActive] = useState("all");
-
-  const handleClick = (id: string) => {
-    setActive(id);
-  };
-
   return (
     <Container>
-      <span>3 Items Left</span>
+      <span>{props.todosLeft} Items Left</span>
       {!props.mobile && (
         <FilterContainer>
           <StyledSpan
             id="all"
-            className={active === "all" ? "active" : undefined}
-            onClick={() => handleClick("all")}
+            className={props.filter === "all" ? "active" : undefined}
+            onClick={() => props.filterTodos("all")}
           >
             All
           </StyledSpan>{" "}
           <StyledSpan
             id="active"
-            className={active === "active" ? "active" : undefined}
-            onClick={() => handleClick("active")}
+            className={props.filter === "active" ? "active" : undefined}
+            onClick={() => props.filterTodos("active")}
           >
             Active
           </StyledSpan>{" "}
           <StyledSpan
             id="completed"
-            className={active === "completed" ? "active" : undefined}
-            onClick={() => handleClick("completed")}
+            className={props.filter === "completed" ? "active" : undefined}
+            onClick={() => props.filterTodos("completed")}
           >
             Completed
           </StyledSpan>
         </FilterContainer>
       )}
-      <StyledSpan>Clear Completed</StyledSpan>
+      <StyledSpan onClick={props.clearCompleted}>Clear Completed</StyledSpan>
     </Container>
   );
 };

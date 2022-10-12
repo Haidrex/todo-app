@@ -8,6 +8,7 @@ import { darkTheme, lightTheme } from "./components/Themes";
 // import "./App.css";
 import TodoList from "./components/TodoList";
 import Filter from "./components/Filter";
+import Drag from "./components/Drag";
 
 const Container = styled.div`
   display: flex;
@@ -30,8 +31,17 @@ const StyledForm = styled.form`
   width: 100%;
 `;
 
+type Todo = {
+  id: number;
+  text: string;
+  status: string;
+};
+
 function App() {
   const [input, setInput] = useState("");
+  const [todos, setTodos] = useState<Todo[]>([]);
+  const [filtered, setFiltered] = useState<Todo[]>([]);
+  const [filter, setFilter] = useState("all");
   const [theme, setTheme] = useState("light");
   const [screenSize, setScreenSize] = useState(window.innerWidth);
 
@@ -50,17 +60,67 @@ function App() {
     theme === "light" ? setTheme("dark") : setTheme("light");
   };
 
+  const addTodo = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (input) {
+      setTodos([
+        ...todos,
+        {
+          id: Math.floor(Math.random() * 1000),
+          text: input,
+          status: "active",
+        },
+      ]);
+      if (filter !== "completed") {
+        setFiltered([
+          ...filtered,
+          {
+            id: Math.floor(Math.random() * 1000),
+            text: input,
+            status: "active",
+          },
+        ]);
+      }
+      setInput("");
+    }
+  };
+
+  const filterTodos = (filter: string) => {
+    setFilter(filter);
+
+    if (filter === "all") {
+      setFiltered(todos);
+    }
+    if (filter === "active") {
+      setFiltered(todos.filter((todo) => todo.status === "active"));
+    }
+    if (filter === "completed") {
+      setFiltered(todos.filter((todo) => todo.status === "completed"));
+    }
+  };
+
   return (
     <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
       <GlobalStyles />
       <Container>
-        <StyledDiv>
+        <StyledDiv onSubmit={addTodo}>
           <Header themeToggler={themeToggler} theme={theme} />
           <StyledForm>
             <Input value={input} onChange={(e) => setInput(e.target.value)} />
           </StyledForm>
-          <TodoList mobile={screenSize < 768} />
-          {screenSize < 768 && <Filter />}
+          <TodoList
+            mobile={screenSize < 768}
+            todos={filtered}
+            allTodos={todos}
+            setTodos={setTodos}
+            setFiltered={setFiltered}
+            filter={filter}
+            filterTodos={filterTodos}
+          />
+          {screenSize < 768 && (
+            <Filter filter={filter} filterTodos={filterTodos} />
+          )}
+          <Drag />
         </StyledDiv>
       </Container>
     </ThemeProvider>

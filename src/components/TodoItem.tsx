@@ -24,6 +24,16 @@ const Container = styled.div`
 
 const NameContainer = styled.div`
   display: flex;
+  &.checked > span {
+    text-decoration: line-through;
+  }
+  &.checked > img {
+    background: linear-gradient(
+      to bottom right,
+      hsl(192, 100%, 67%),
+      hsl(280, 87%, 65%)
+    );
+  }
 `;
 
 const Check = styled.img`
@@ -33,11 +43,6 @@ const Check = styled.img`
   margin-right: 20px;
   border: 1px solid #ccc;
   border-radius: 100px;
-  background: linear-gradient(
-    to bottom right,
-    hsl(192, 100%, 67%),
-    hsl(280, 87%, 65%)
-  );
 `;
 
 const Cross = styled.img`
@@ -45,25 +50,33 @@ const Cross = styled.img`
   height: 15px;
   display: none;
 `;
-// type Todo = {
-//   id: number;
-//   name: string;
-//   status: string;
-// };
+type Todo = {
+  id: number;
+  text: string;
+  status: string;
+};
 
-// type Props = {
-//   todo: Todo;
-// };
+type Props = {
+  todo: Todo;
+  changeStatus: (id: number) => void;
+  deleteTodo: (id: number) => void;
+};
 
-const TodoItem = () => {
-  const [checked, setChecked] = useState(false);
+const TodoItem = (props: Props) => {
+  const [checked, setChecked] = useState(props.todo.status === "completed");
   return (
     <Container>
-      <NameContainer>
-        <Check src={IconCheck} onClick={() => setChecked(!checked)} />
-        <span>Pavadinimas</span>
+      <NameContainer className={checked ? "checked" : ""}>
+        <Check
+          src={IconCheck}
+          onClick={() => {
+            props.changeStatus(props.todo.id);
+            setChecked(!checked);
+          }}
+        />
+        <span>{props.todo.text}</span>
       </NameContainer>
-      <Cross src={IconCross} />
+      <Cross src={IconCross} onClick={() => props.deleteTodo(props.todo.id)} />
     </Container>
   );
 };

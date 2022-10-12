@@ -15,8 +15,8 @@ export const GlobalStyles = createGlobalStyle`
     @media screen and (min-width: 768px) {
      body {
         background-color: ${({ theme }) => theme.Background};
-         background-image: ${({ theme }) => theme.BackgroundImageDesktop};
-         background-size: 100% 250px;
+        background-image: ${({ theme }) => theme.BackgroundImageDesktop};
+        background-size: 100% 250px;
      }
     }
 `;

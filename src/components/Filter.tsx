@@ -12,6 +12,7 @@ const Container = styled.div`
   background-color: ${({ theme }) => theme.ListBackground};
   padding: 30px;
   color: ${({ theme }) => theme.SecondaryText};
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 `;
 
 const StyledSpan = styled.span`
@@ -24,33 +25,32 @@ const StyledSpan = styled.span`
   }
 `;
 
-const Filter = () => {
-  const [active, setActive] = useState("all");
+type Props = {
+  filter: string;
+  filterTodos: (filter: string) => void;
+};
 
-  const changeFilter = (id: string) => {
-    setActive(id);
-  };
-
+const Filter = (props: Props) => {
   return (
     <Container>
       <StyledSpan
         id="all"
-        className={active === "all" ? "active" : undefined}
-        onClick={() => changeFilter("all")}
+        className={props.filter === "all" ? "active" : undefined}
+        onClick={() => props.filterTodos("all")}
       >
         All
       </StyledSpan>{" "}
       <StyledSpan
         id="active"
-        className={active === "active" ? "active" : undefined}
-        onClick={() => changeFilter("active")}
+        className={props.filter === "active" ? "active" : undefined}
+        onClick={() => props.filterTodos("active")}
       >
         Active
       </StyledSpan>{" "}
       <StyledSpan
         id="completed"
-        className={active === "completed" ? "active" : undefined}
-        onClick={() => changeFilter("completed")}
+        className={props.filter === "completed" ? "active" : undefined}
+        onClick={() => props.filterTodos("completed")}
       >
         Completed
       </StyledSpan>
